@@ -8,7 +8,9 @@ import { AnalysisLoading } from '@/app/components/analysis-loading';
 import { CodeResults } from '@/app/components/code-results';
 import { CommandPalette } from '@/app/components/command-palette';
 import { NavigationHeader } from '@/app/components/navigation-header';
+import { AnalysisHistoryService } from '@/app/lib/analysis-history';
 import { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 export default function Home() {
   const [currentStep, setCurrentStep] = useState<'dashboard' | 'loading' | 'results'>('dashboard');
