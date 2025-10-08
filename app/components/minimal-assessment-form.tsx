@@ -10,8 +10,13 @@ interface MinimalAssessmentFormProps {
   isLoading: boolean;
 }
 
+// Based on https://www.ledger.com/supported-crypto-assets
+// ✅ ALREADY SUPPORTED: Bitcoin, Ethereum, Solana, Cardano, Polygon, BNB Chain, Avalanche, 
+//    Stellar, Cosmos, Polkadot, Tron, XRP, TON, SUI, Litecoin, etc.
+// ❌ NOT YET: Base, Arbitrum, Optimism, Aptos, Starknet, zkSync, Sonic, etc.
+
 const recentChains = [
-  'SUI', 'Babylon', 'Hedera', 'Base', 'Arbitrum', 'Celestia', 'Sei', 'Aptos'
+  'SUI ✅', 'Base', 'Arbitrum', 'Optimism', 'Aptos', 'Starknet', 'Sonic', 'zkSync'
 ];
 
 export function MinimalAssessmentForm({ onAnalyze, isLoading }: MinimalAssessmentFormProps) {
@@ -102,19 +107,36 @@ export function MinimalAssessmentForm({ onAnalyze, isLoading }: MinimalAssessmen
 
         {/* Recent Chains */}
         <div className="mt-8">
-          <p className="text-sm text-gray-500 mb-4 text-center">Recent integrations:</p>
-          <div className="flex flex-wrap justify-center gap-2">
-            {recentChains.map((chain) => (
-              <button
-                key={chain}
-                onClick={() => handleChainClick(chain)}
-                className="px-4 py-2 bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-lg text-black text-sm font-medium transition-all duration-200 hover:scale-105"
-                disabled={isLoading}
-              >
-                {chain}
-              </button>
-            ))}
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <p className="text-sm text-gray-500">Test with chains:</p>
+            <div className="flex items-center gap-2 text-xs">
+              <span className="px-2 py-1 bg-green-50 text-green-600 rounded border border-green-200">✅ Supported</span>
+              <span className="px-2 py-1 bg-orange-50 text-orange-600 rounded border border-orange-200">Opportunity</span>
+            </div>
           </div>
+          <div className="flex flex-wrap justify-center gap-2">
+            {recentChains.map((chain) => {
+              const isSupported = chain.includes('✅');
+              const cleanName = chain.replace(' ✅', '');
+              return (
+                <button
+                  key={chain}
+                  onClick={() => handleChainClick(cleanName)}
+                  className={`px-4 py-2 border rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 ${
+                    isSupported 
+                      ? 'bg-green-50 hover:bg-green-100 border-green-200 text-green-700' 
+                      : 'bg-orange-50 hover:bg-orange-100 border-orange-200 text-orange-700'
+                  }`}
+                  disabled={isLoading}
+                >
+                  {chain}
+                </button>
+              );
+            })}
+          </div>
+          <p className="text-xs text-gray-400 text-center mt-3">
+            Based on <a href="https://www.ledger.com/supported-crypto-assets" target="_blank" rel="noopener" className="underline hover:text-gray-600">Ledger's official list</a>
+          </p>
         </div>
       </motion.div>
     </div>

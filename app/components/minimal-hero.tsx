@@ -8,13 +8,23 @@ interface FeaturedChain {
   reason: string;
   complexity: 'LOW' | 'MEDIUM' | 'HIGH';
   emoji: string;
+  isSupported: boolean;
 }
 
+// Based on https://www.ledger.com/supported-crypto-assets
+// ALREADY SUPPORTED: Bitcoin, Ethereum, Tether, XRP, Solana, Cardano, Dogecoin, Tron, Polkadot, 
+// Polygon, BNB Chain, Avalanche, Stellar, Bitcoin Cash, TON, SUI, Chainlink, Litecoin, Cosmos, etc.
+
 const featuredChains: FeaturedChain[] = [
-  { name: 'Sonic', reason: 'New EVM L2 with high performance - quick win!', complexity: 'LOW', emoji: '⚡' },
-  { name: 'Aptos', reason: 'Move-based chain with growing ecosystem', complexity: 'MEDIUM', emoji: '🚀' },
-  { name: 'Starknet', reason: 'Leading ZK-rollup with strong adoption', complexity: 'MEDIUM', emoji: '🔷' },
-  { name: 'Monad', reason: 'Upcoming high-performance EVM chain', complexity: 'LOW', emoji: '🌊' },
+  // NOT YET SUPPORTED - Priority integrations
+  { name: 'Sonic', reason: 'New EVM L2 with high performance - quick win!', complexity: 'LOW', emoji: '⚡', isSupported: false },
+  { name: 'Aptos', reason: 'Move-based chain with growing ecosystem', complexity: 'MEDIUM', emoji: '🚀', isSupported: false },
+  { name: 'Starknet', reason: 'Leading ZK-rollup with strong adoption', complexity: 'MEDIUM', emoji: '🔷', isSupported: false },
+  { name: 'Monad', reason: 'Upcoming high-performance EVM chain', complexity: 'LOW', emoji: '🌊', isSupported: false },
+  { name: 'Base', reason: 'Coinbase L2 - massive user base, EVM compatible', complexity: 'LOW', emoji: '🔵', isSupported: false },
+  { name: 'Arbitrum', reason: 'Leading L2 by TVL - EVM compatible', complexity: 'LOW', emoji: '🔶', isSupported: false },
+  { name: 'Optimism', reason: 'Major L2 with Superchain ecosystem', complexity: 'LOW', emoji: '🔴', isSupported: false },
+  { name: 'zkSync', reason: 'ZK-rollup with native account abstraction', complexity: 'MEDIUM', emoji: '⚪', isSupported: false },
 ];
 
 export function MinimalHero() {
@@ -46,8 +56,11 @@ export function MinimalHero() {
             <div className="flex items-center gap-3">
               <Sparkles className="h-5 w-5 text-purple-600 animate-pulse" />
               <div className="text-left">
-                <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider flex items-center gap-2">
                   🔥 Integration Opportunity of the Day
+                  <span className="px-2 py-0.5 bg-red-100 text-red-600 text-[10px] font-bold rounded">
+                    NOT YET SUPPORTED
+                  </span>
                 </div>
                 <div className="text-lg font-bold text-black">
                   {featuredChain.emoji} {featuredChain.name}
