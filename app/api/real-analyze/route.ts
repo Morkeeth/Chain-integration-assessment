@@ -58,12 +58,34 @@ export async function POST(request: NextRequest) {
           // Build the enhanced prompt for OpenAI
           const prompt = `You are a senior blockchain integration specialist at Ledger with 10+ years of experience. Analyze the integration complexity for ${chainName} blockchain.
 
+COMPLEXITY CLASSIFICATION RULES:
+
+LOW COMPLEXITY (EVM-based chains):
+- EVM-compatible L1s and L2s: Base, Optimism, Arbitrum, Sonic, Polygon, etc.
+- Standard EVM chains with existing infrastructure
+- Well-documented with mature tooling
+- Examples: Base, Optimism, Arbitrum, Polygon, Avalanche C-Chain, BNB Chain
+
+MEDIUM COMPLEXITY:
+- Non-EVM L1s with good documentation: Cosmos chains, Solana, Aptos, SUI
+- Move-based blockchains: Aptos, SUI
+- Established ecosystems with SDK support
+- Cosmos SDK chains with IBC
+- Examples: Cosmos, Solana, Avalanche X-Chain, Hedera, Celestia
+
+HIGH COMPLEXITY:
+- Privacy-focused chains: Aleo, Zcash, Monero, Iron Fish, Penumbra
+- Chains with zero-knowledge circuits: Aleo, Mina
+- Custom consensus mechanisms without standard tooling
+- Privacy protocols: Canton Network, Secret Network
+- Experimental or poorly documented chains
+- Examples: Aleo, Zcash, Monero, Canton, Mina Protocol
+
 CRITICAL ANALYSIS REQUIREMENTS:
-1. Determine the blockchain type (EVM, Cosmos, Move, Solana, Custom, etc.) based on technical architecture
-2. Assess recent developments, security updates, and community activity
-3. Evaluate documentation quality, SDK availability, and developer tools
-4. Consider network stability, consensus mechanism, and performance characteristics
-5. Analyze token standards, smart contract capabilities, and interoperability features
+1. First identify if the chain is EVM-compatible (if yes, likely LOW complexity)
+2. Check for privacy/ZK features (if yes, likely HIGH complexity)
+3. Assess documentation quality, SDK availability, and developer tools
+4. Consider Ledger's existing infrastructure and similar integrations
 
 LEDGER INTEGRATION CRITERIA:
 - Hardware wallet compatibility and security requirements
