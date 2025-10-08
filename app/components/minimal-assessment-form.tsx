@@ -18,7 +18,7 @@ interface MinimalAssessmentFormProps {
 // ⏰ Q3-Q4 2025: Monad
 
 const recentChains = [
-  'Berachain 🔥', 'Movement 🔥', 'Hyperliquid 🔥', 'Monad', 'Starknet', 'Bittensor'
+  'Berachain', 'Starknet', 'Monad'
 ];
 
 export function MinimalAssessmentForm({ onAnalyze, isLoading }: MinimalAssessmentFormProps) {
@@ -109,27 +109,17 @@ export function MinimalAssessmentForm({ onAnalyze, isLoading }: MinimalAssessmen
 
         {/* Recent Chains */}
         <div className="mt-12">
-          <div className="flex flex-wrap justify-center gap-2">
-            {recentChains.map((chain) => {
-              const isImmediate = chain.includes('🔥');
-              const cleanName = chain.replace(' 🔥', '');
-              
-              let buttonClass = 'bg-gray-50 hover:bg-gray-100 border-gray-200 text-gray-700';
-              if (isImmediate) {
-                buttonClass = 'bg-black hover:bg-gray-900 border-black text-white font-semibold';
-              }
-              
-              return (
-                <button
-                  key={chain}
-                  onClick={() => handleChainClick(cleanName)}
-                  className={`px-4 py-2 border rounded-lg text-sm transition-all duration-200 hover:scale-105 ${buttonClass}`}
-                  disabled={isLoading}
-                >
-                  {chain}
-                </button>
-              );
-            })}
+          <div className="flex justify-center gap-3">
+            {recentChains.map((chain) => (
+              <button
+                key={chain}
+                onClick={() => handleChainClick(chain)}
+                className="px-5 py-2 bg-white hover:bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-700 transition-all duration-200 hover:border-gray-300"
+                disabled={isLoading}
+              >
+                {chain}
+              </button>
+            ))}
           </div>
         </div>
       </motion.div>
