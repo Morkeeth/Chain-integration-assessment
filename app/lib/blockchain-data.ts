@@ -1,4 +1,6 @@
 // Real blockchain data sources and APIs
+import { DeFiLlamaService, ChainStats } from './defilama-api';
+import { ChainListService } from './chainlist-api';
 
 export interface BlockchainInfo {
   name: string;
@@ -13,6 +15,13 @@ export interface BlockchainInfo {
   marketCap?: number;
   price?: number;
   lastUpdated?: string;
+  // Real-time data from APIs
+  tvl?: number;
+  tvlFormatted?: string;
+  protocols?: number;
+  change24h?: number;
+  chainRank?: number;
+  totalChains?: number;
 }
 
 export class BlockchainDataService {
@@ -197,31 +206,57 @@ export class BlockchainDataService {
 
   static async getChainInfo(chainName: string): Promise<BlockchainInfo> {
     const normalizedName = chainName.toLowerCase();
-    const found = this.KNOWN_CHAINS[normalizedName];
+    let baseInfo = this.KNOWN_CHAINS[normalizedName];
     
-    if (found) {
-      return found;
-    }
-
-    // Try to find by partial match
-    for (const [key, value] of Object.entries(this.KNOWN_CHAINS)) {
-      if (key.includes(normalizedName) || normalizedName.includes(key)) {
-        return value;
+    // Try to find by partial match if not found
+    if (!baseInfo) {
+      for (const [key, value] of Object.entries(this.KNOWN_CHAINS)) {
+        if (key.includes(normalizedName) || normalizedName.includes(key)) {
+          baseInfo = value;
+          break;
+        }
       }
     }
 
-    // For unknown chains, return minimal data - AI will discover the rest
-    return {
-      name: chainName,
-      ticker: 'TBD',
-      rpcUrl: 'To be discovered via documentation',
-      iconUrl: '',
-      chainId: 'To be discovered',
-      explorerUrl: 'To be discovered via documentation',
-      githubRepo: 'To be discovered via documentation',
-      chainType: 'To be analyzed',
-      isTestnet: false,
+    // Try to fetch real data from ChainList
+    let chainListData;
+    try {
+      chainListData = await ChainListService.getChainInfo(chainName);
+    } catch (error) {
+      console.error('ChainList API error:', error);
+    }
+
+    // Try to fetch TVL data from DeFiLlama
+    let defiLlamaData: ChainStats | null = null;
+    let chainRank: { rank: number; total: number } | null = null;
+    try {
+      defiLlamaData = await DeFiLlamaService.getChainData(chainName);
+      chainRank = await DeFiLlamaService.getChainRank(chainName);
+    } catch (error) {
+      console.error('DeFiLlama API error:', error);
+    }
+
+    // Merge data with priority: ChainList > KNOWN_CHAINS > defaults
+    const result: BlockchainInfo = {
+      name: chainListData?.name || baseInfo?.name || chainName,
+      ticker: chainListData?.symbol || baseInfo?.ticker || 'TBD',
+      rpcUrl: chainListData?.rpcUrls[0] || baseInfo?.rpcUrl || 'To be discovered',
+      iconUrl: baseInfo?.iconUrl || '',
+      chainId: chainListData?.chainId?.toString() || baseInfo?.chainId || 'To be discovered',
+      explorerUrl: chainListData?.explorers[0]?.url || baseInfo?.explorerUrl || 'To be discovered',
+      githubRepo: baseInfo?.githubRepo || 'To be discovered',
+      chainType: chainListData?.isEVM ? 'EVM' : (baseInfo?.chainType || 'To be analyzed'),
+      isTestnet: baseInfo?.isTestnet || false,
+      // Real-time data
+      tvl: defiLlamaData?.tvl,
+      tvlFormatted: defiLlamaData?.tvl ? DeFiLlamaService.formatTVL(defiLlamaData.tvl) : undefined,
+      protocols: defiLlamaData?.protocols,
+      change24h: defiLlamaData?.change24h,
+      chainRank: chainRank?.rank,
+      totalChains: chainRank?.total,
     };
+
+    return result;
   }
 
   static async getMarketData(ticker: string): Promise<{ price?: number; marketCap?: number }> {
