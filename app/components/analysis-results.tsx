@@ -15,7 +15,8 @@ import {
   CheckCircle,
   AlertTriangle,
   Clock,
-  FileText
+  FileText,
+  TrendingUp
 } from 'lucide-react';
 import { copyToClipboard, exportToJSON } from '@/app/lib/utils';
 
