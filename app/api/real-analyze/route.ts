@@ -192,9 +192,10 @@ Be thorough, specific, and provide actionable insights based on current blockcha
           controller.close();
         } catch (error) {
           console.error('OpenAI API error:', error);
+          const errorMessage = error instanceof Error ? error.message : 'Unknown error';
           controller.enqueue(new TextEncoder().encode(`data: ${JSON.stringify({ 
             type: 'error', 
-            error: 'Failed to generate analysis: ' + error.message 
+            error: 'Failed to generate analysis: ' + errorMessage 
           })}\n\n`));
           controller.close();
         }
@@ -210,8 +211,9 @@ Be thorough, specific, and provide actionable insights based on current blockcha
     });
   } catch (error) {
     console.error('Analysis API error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json(
-      { error: 'Internal server error: ' + error.message },
+      { error: 'Internal server error: ' + errorMessage },
       { status: 500 }
     );
   }

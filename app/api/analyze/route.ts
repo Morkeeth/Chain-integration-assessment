@@ -103,12 +103,7 @@ Be specific and actionable in your recommendations.`;
             ],
             temperature: TEMPERATURE,
             max_tokens: MAX_TOKENS,
-            stream: true,
-            tools: [
-              {
-                type: "web_search"
-              }
-            ]
+            stream: true
           });
 
           let fullResponse = '';

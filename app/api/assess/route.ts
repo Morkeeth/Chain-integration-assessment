@@ -38,13 +38,7 @@ export async function POST(request: NextRequest) {
             ],
             temperature: TEMPERATURE,
             max_tokens: MAX_TOKENS,
-            stream: true,
-            // Enable web search if available
-            tools: [
-              {
-                type: "web_search"
-              }
-            ]
+            stream: true
           });
 
           for await (const chunk of completion) {

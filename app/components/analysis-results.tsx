@@ -103,8 +103,8 @@ export function AnalysisResults({ result, onNewAnalysis }: AnalysisResultsProps)
             <div className="bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 p-6">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-white">Integration Analysis</h2>
-                <Badge className={`px-4 py-2 text-lg font-semibold ${getComplexityColor(result.analysis?.complexity || 'MEDIUM')}`}>
-                  {result.analysis?.complexity || 'MEDIUM'} COMPLEXITY
+                <Badge className={`px-4 py-2 text-lg font-semibold ${getComplexityColor(result.complexity || 'MEDIUM')}`}>
+                  {result.complexity || 'MEDIUM'} COMPLEXITY
                 </Badge>
               </div>
               
@@ -112,12 +112,12 @@ export function AnalysisResults({ result, onNewAnalysis }: AnalysisResultsProps)
                 <div className="bg-white/5 rounded-xl p-4">
                   <Clock className="h-5 w-5 text-ledger-orange mb-2" />
                   <p className="text-sm text-ledger-gray-400">Estimated Time</p>
-                  <p className="text-lg font-semibold text-white">{result.analysis?.estimatedTimeframe || 'Unknown'}</p>
+                  <p className="text-lg font-semibold text-white">{result.estimatedTimeframe || 'Unknown'}</p>
                 </div>
                 <div className="bg-white/5 rounded-xl p-4">
                   <Zap className="h-5 w-5 text-ledger-green mb-2" />
                   <p className="text-sm text-ledger-gray-400">Confidence</p>
-                  <p className="text-lg font-semibold text-white">{result.analysis?.confidence || 0}%</p>
+                  <p className="text-lg font-semibold text-white">{result.confidence || 0}%</p>
                 </div>
                 <div className="bg-white/5 rounded-xl p-4">
                   <Database className="h-5 w-5 text-ledger-blue mb-2" />
@@ -128,7 +128,7 @@ export function AnalysisResults({ result, onNewAnalysis }: AnalysisResultsProps)
 
               <div className="bg-white/5 rounded-xl p-4">
                 <h3 className="text-lg font-semibold text-white mb-3">Technical Reasoning</h3>
-                <p className="text-ledger-gray-300 leading-relaxed">{result.analysis?.technicalReasoning || 'No technical reasoning available.'}</p>
+                <p className="text-ledger-gray-300 leading-relaxed">{result.technicalReasoning || 'No technical reasoning available.'}</p>
               </div>
             </div>
 
@@ -139,7 +139,7 @@ export function AnalysisResults({ result, onNewAnalysis }: AnalysisResultsProps)
                 Action Checklist
               </h3>
               <ul className="space-y-3">
-                {result.analysis?.actionChecklist?.map((item, index) => (
+                {result.actionChecklist?.map((item, index) => (
                   <li key={index} className="flex items-start gap-3">
                     <div className="w-6 h-6 rounded-full bg-ledger-orange text-white text-sm flex items-center justify-center font-semibold mt-0.5 flex-shrink-0">
                       {index + 1}
@@ -151,14 +151,14 @@ export function AnalysisResults({ result, onNewAnalysis }: AnalysisResultsProps)
             </div>
 
             {/* Red Flags */}
-            {result.analysis?.redFlags?.length > 0 && (
+            {result.redFlags?.length > 0 && (
               <div className="bg-ledger-red/10 backdrop-blur-lg rounded-2xl border border-ledger-red/20 p-6">
                 <h3 className="text-xl font-bold text-ledger-red mb-4 flex items-center gap-2">
                   <AlertTriangle className="h-5 w-5" />
                   Red Flags
                 </h3>
                 <ul className="space-y-2">
-                  {result.analysis.redFlags.map((flag, index) => (
+                  {result.redFlags.map((flag, index) => (
                     <li key={index} className="flex items-start gap-3">
                       <div className="w-2 h-2 rounded-full bg-ledger-red mt-2 flex-shrink-0" />
                       <span className="text-ledger-red">{flag}</span>
@@ -172,7 +172,7 @@ export function AnalysisResults({ result, onNewAnalysis }: AnalysisResultsProps)
             <div className="bg-ledger-green/10 backdrop-blur-lg rounded-2xl border border-ledger-green/20 p-6">
               <h3 className="text-xl font-bold text-ledger-green mb-4">Recommendations</h3>
               <ul className="space-y-2">
-                {result.analysis?.recommendations?.map((rec, index) => (
+                {result.recommendations?.map((rec, index) => (
                   <li key={index} className="flex items-start gap-3">
                     <div className="w-2 h-2 rounded-full bg-ledger-green mt-2 flex-shrink-0" />
                     <span className="text-ledger-gray-300">{rec}</span>
