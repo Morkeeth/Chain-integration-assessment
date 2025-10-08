@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { openai, ASSESSMENT_MODEL, MAX_TOKENS, TEMPERATURE } from '@/app/lib/openai';
 import { BlockchainDataService } from '@/app/lib/blockchain-data';
+import { PrioritizationService } from '@/app/lib/prioritization-score';
 
 export async function POST(request: NextRequest) {
   try {
@@ -213,19 +214,29 @@ Be thorough, specific, and provide actionable insights based on current blockcha
             };
           }
 
-          // Generate real metadata based on chain name
-          const discoveredMetadata = await BlockchainDataService.getChainInfo(chainName);
+                // Generate real metadata based on chain name
+                const discoveredMetadata = await BlockchainDataService.getChainInfo(chainName);
 
-          // Generate real code
-          const generatedCode = generateRealCode(chainName, analysis);
+                // Calculate priority score
+                const priorityScore = await PrioritizationService.calculatePriority(
+                  chainName,
+                  analysis.complexity,
+                  discoveredMetadata.tvl,
+                  discoveredMetadata.protocols,
+                  discoveredMetadata.chainRank
+                );
 
-          // Send final result
-          controller.enqueue(new TextEncoder().encode(`data: ${JSON.stringify({
-            type: 'result',
-            analysis,
-            discoveredMetadata,
-            generatedCode
-          })}\n\n`));
+                // Generate real code
+                const generatedCode = generateRealCode(chainName, analysis);
+
+                // Send final result
+                controller.enqueue(new TextEncoder().encode(`data: ${JSON.stringify({
+                  type: 'result',
+                  analysis,
+                  discoveredMetadata,
+                  generatedCode,
+                  priorityScore
+                })}\n\n`));
           
           controller.close();
         } catch (error) {
