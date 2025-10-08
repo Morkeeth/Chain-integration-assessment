@@ -12,11 +12,12 @@ interface MinimalAssessmentFormProps {
 
 // Based on https://www.ledger.com/supported-crypto-assets
 // ✅ ALREADY SUPPORTED: Bitcoin, Ethereum, Solana, Cardano, Polygon, BNB Chain, Avalanche, 
-//    Stellar, Cosmos, Polkadot, Tron, XRP, TON, SUI, Litecoin, etc.
-// ❌ NOT YET: Base, Arbitrum, Optimism, Aptos, Starknet, zkSync, Sonic, etc.
+//    Stellar, Cosmos, Polkadot, Tron, XRP, TON, SUI, Litecoin, Base, Arbitrum, 
+//    Optimism, Aptos, zkSync, Sonic, etc.
+// ❌ NOT YET SUPPORTED: Starknet, Bittensor, Monad
 
 const recentChains = [
-  'SUI ✅', 'Base', 'Arbitrum', 'Optimism', 'Aptos', 'Starknet', 'Sonic', 'zkSync'
+  'Base ✅', 'Arbitrum ✅', 'Optimism ✅', 'Aptos ✅', 'Sonic ✅', 'Starknet', 'Monad', 'Bittensor'
 ];
 
 export function MinimalAssessmentForm({ onAnalyze, isLoading }: MinimalAssessmentFormProps) {

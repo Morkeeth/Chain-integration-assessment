@@ -13,18 +13,16 @@ interface FeaturedChain {
 
 // Based on https://www.ledger.com/supported-crypto-assets
 // ALREADY SUPPORTED: Bitcoin, Ethereum, Tether, XRP, Solana, Cardano, Dogecoin, Tron, Polkadot, 
-// Polygon, BNB Chain, Avalanche, Stellar, Bitcoin Cash, TON, SUI, Chainlink, Litecoin, Cosmos, etc.
+// Polygon, BNB Chain, Avalanche, Stellar, Bitcoin Cash, TON, SUI, Chainlink, Litecoin, Cosmos,
+// Base, Arbitrum, Optimism, zkSync, Aptos, Sonic, etc.
+// 
+// NOT YET SUPPORTED: Starknet, Bittensor, Monad
 
 const featuredChains: FeaturedChain[] = [
   // NOT YET SUPPORTED - Priority integrations
-  { name: 'Sonic', reason: 'New EVM L2 with high performance - quick win!', complexity: 'LOW', emoji: '⚡', isSupported: false },
-  { name: 'Aptos', reason: 'Move-based chain with growing ecosystem', complexity: 'MEDIUM', emoji: '🚀', isSupported: false },
-  { name: 'Starknet', reason: 'Leading ZK-rollup with strong adoption', complexity: 'MEDIUM', emoji: '🔷', isSupported: false },
-  { name: 'Monad', reason: 'Upcoming high-performance EVM chain', complexity: 'LOW', emoji: '🌊', isSupported: false },
-  { name: 'Base', reason: 'Coinbase L2 - massive user base, EVM compatible', complexity: 'LOW', emoji: '🔵', isSupported: false },
-  { name: 'Arbitrum', reason: 'Leading L2 by TVL - EVM compatible', complexity: 'LOW', emoji: '🔶', isSupported: false },
-  { name: 'Optimism', reason: 'Major L2 with Superchain ecosystem', complexity: 'LOW', emoji: '🔴', isSupported: false },
-  { name: 'zkSync', reason: 'ZK-rollup with native account abstraction', complexity: 'MEDIUM', emoji: '⚪', isSupported: false },
+  { name: 'Starknet', reason: 'Leading ZK-rollup with Cairo VM - high adoption', complexity: 'MEDIUM', emoji: '🔷', isSupported: false },
+  { name: 'Monad', reason: 'High-performance parallel EVM - quick EVM integration', complexity: 'LOW', emoji: '🌊', isSupported: false },
+  { name: 'Bittensor', reason: 'Decentralized AI network - emerging ecosystem', complexity: 'MEDIUM', emoji: '🧠', isSupported: false },
 ];
 
 export function MinimalHero() {
