@@ -23,6 +23,16 @@ export default function Home() {
     setCurrentStep('loading');
     setLoadingStep(1);
     
+    // Check cache first
+    const cached = AnalysisHistoryService.getCachedAnalysis(chainName);
+    if (cached) {
+      toast.success('Loaded from cache (24h)', { duration: 2000 });
+      setAnalysisResult(cached.fullAnalysis);
+      setCurrentStep('results');
+      setIsLoading(false);
+      return;
+    }
+    
     try {
       const response = await fetch('/api/real-analyze', {
         method: 'POST',
@@ -64,6 +74,9 @@ export default function Home() {
                 fullResult = data;
                 setAnalysisResult(data);
                 setCurrentStep('results');
+                // Save to history
+                AnalysisHistoryService.saveAnalysis(chainName, data);
+                toast.success('Analysis saved to history', { duration: 2000 });
               } else if (data.type === 'error') {
                 throw new Error(data.error);
               }
