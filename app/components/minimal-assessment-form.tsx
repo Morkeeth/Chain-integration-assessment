@@ -14,10 +14,11 @@ interface MinimalAssessmentFormProps {
 // ✅ ALREADY SUPPORTED: Bitcoin, Ethereum, Solana, Cardano, Polygon, BNB Chain, Avalanche, 
 //    Stellar, Cosmos, Polkadot, Tron, XRP, TON, SUI, Litecoin, Base, Arbitrum, 
 //    Optimism, Aptos, zkSync, Sonic, etc.
-// ❌ NOT YET SUPPORTED: Starknet, Bittensor, Monad
+// 🔥 IMMEDIATE PRIORITY: Berachain, Movement, Hyperliquid
+// ⏰ Q3-Q4 2025: Monad
 
 const recentChains = [
-  'Base ✅', 'Arbitrum ✅', 'Optimism ✅', 'Aptos ✅', 'Sonic ✅', 'Starknet', 'Monad', 'Bittensor'
+  'Berachain 🔥', 'Movement 🔥', 'Hyperliquid 🔥', 'Monad', 'Starknet', 'Base ✅', 'Arbitrum ✅', 'Aptos ✅'
 ];
 
 export function MinimalAssessmentForm({ onAnalyze, isLoading }: MinimalAssessmentFormProps) {
@@ -112,22 +113,28 @@ export function MinimalAssessmentForm({ onAnalyze, isLoading }: MinimalAssessmen
             <p className="text-sm text-gray-500">Test with chains:</p>
             <div className="flex items-center gap-2 text-xs">
               <span className="px-2 py-1 bg-green-50 text-green-600 rounded border border-green-200">✅ Supported</span>
-              <span className="px-2 py-1 bg-orange-50 text-orange-600 rounded border border-orange-200">Opportunity</span>
+              <span className="px-2 py-1 bg-red-50 text-red-600 rounded border border-red-200 font-bold">🔥 IMMEDIATE</span>
+              <span className="px-2 py-1 bg-orange-50 text-orange-600 rounded border border-orange-200">Soon</span>
             </div>
           </div>
           <div className="flex flex-wrap justify-center gap-2">
             {recentChains.map((chain) => {
               const isSupported = chain.includes('✅');
-              const cleanName = chain.replace(' ✅', '');
+              const isImmediate = chain.includes('🔥');
+              const cleanName = chain.replace(' ✅', '').replace(' 🔥', '');
+              
+              let buttonClass = 'bg-orange-50 hover:bg-orange-100 border-orange-200 text-orange-700';
+              if (isSupported) {
+                buttonClass = 'bg-green-50 hover:bg-green-100 border-green-200 text-green-700';
+              } else if (isImmediate) {
+                buttonClass = 'bg-red-50 hover:bg-red-100 border-red-200 text-red-700 font-bold';
+              }
+              
               return (
                 <button
                   key={chain}
                   onClick={() => handleChainClick(cleanName)}
-                  className={`px-4 py-2 border rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 ${
-                    isSupported 
-                      ? 'bg-green-50 hover:bg-green-100 border-green-200 text-green-700' 
-                      : 'bg-orange-50 hover:bg-orange-100 border-orange-200 text-orange-700'
-                  }`}
+                  className={`px-4 py-2 border rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 ${buttonClass}`}
                   disabled={isLoading}
                 >
                   {chain}

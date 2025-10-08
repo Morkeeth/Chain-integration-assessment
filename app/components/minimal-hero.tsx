@@ -16,13 +16,20 @@ interface FeaturedChain {
 // Polygon, BNB Chain, Avalanche, Stellar, Bitcoin Cash, TON, SUI, Chainlink, Litecoin, Cosmos,
 // Base, Arbitrum, Optimism, zkSync, Aptos, Sonic, etc.
 // 
-// NOT YET SUPPORTED: Starknet, Bittensor, Monad
+// HIGH-PRIORITY NOT YET SUPPORTED:
 
 const featuredChains: FeaturedChain[] = [
-  // NOT YET SUPPORTED - Priority integrations
-  { name: 'Starknet', reason: 'Leading ZK-rollup with Cairo VM - high adoption', complexity: 'MEDIUM', emoji: '🔷', isSupported: false },
-  { name: 'Monad', reason: 'High-performance parallel EVM - quick EVM integration', complexity: 'LOW', emoji: '🌊', isSupported: false },
-  { name: 'Bittensor', reason: 'Decentralized AI network - emerging ecosystem', complexity: 'MEDIUM', emoji: '🧠', isSupported: false },
+  // IMMEDIATE PRIORITY - Already live with massive adoption
+  { name: 'Berachain', reason: 'Live mainnet, massive TVL, EVM-compatible - IMMEDIATE', complexity: 'LOW', emoji: '🐻', isSupported: false },
+  { name: 'Movement', reason: 'Live beta, unique Move-EVM bridge - IMMEDIATE', complexity: 'MEDIUM', emoji: '⚡', isSupported: false },
+  { name: 'Hyperliquid', reason: 'Major DEX with high usage - IMMEDIATE', complexity: 'MEDIUM', emoji: '💧', isSupported: false },
+  
+  // Q3-Q4 2025 - High potential
+  { name: 'Monad', reason: '$244M funded, 240+ projects waiting - Q3-Q4 2025', complexity: 'LOW', emoji: '🌊', isSupported: false },
+  
+  // Other opportunities
+  { name: 'Starknet', reason: 'Leading ZK-rollup with Cairo VM', complexity: 'MEDIUM', emoji: '🔷', isSupported: false },
+  { name: 'Bittensor', reason: 'Decentralized AI network', complexity: 'MEDIUM', emoji: '🧠', isSupported: false },
 ];
 
 export function MinimalHero() {
