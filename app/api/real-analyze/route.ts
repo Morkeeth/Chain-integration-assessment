@@ -55,8 +55,35 @@ export async function POST(request: NextRequest) {
           
           await new Promise(resolve => setTimeout(resolve, 1000));
 
+          // Get real-time data for the chain
+          const chainInfo = await BlockchainDataService.getChainInfo(chainName);
+          
+          // Build context with real data
+          let realDataContext = '';
+          if (chainInfo.tvl) {
+            realDataContext += `\n📊 REAL-TIME DATA (from DeFiLlama & ChainList):`;
+            realDataContext += `\n- Total Value Locked: ${chainInfo.tvlFormatted}`;
+            realDataContext += `\n- TVL Rank: #${chainInfo.chainRank} out of ${chainInfo.totalChains} chains`;
+            realDataContext += `\n- Active Protocols: ${chainInfo.protocols}`;
+            realDataContext += `\n- 24h Change: ${chainInfo.change24h > 0 ? '+' : ''}${chainInfo.change24h}%`;
+          }
+          if (chainInfo.rpcUrl && !chainInfo.rpcUrl.includes('To be discovered')) {
+            realDataContext += `\n- Verified RPC: ${chainInfo.rpcUrl}`;
+            realDataContext += `\n- Chain ID: ${chainInfo.chainId}`;
+            realDataContext += `\n- Explorer: ${chainInfo.explorerUrl}`;
+          }
+
           // Build the enhanced prompt for OpenAI
           const prompt = `You are a senior blockchain integration specialist at Ledger with 10+ years of experience. Analyze the integration complexity for ${chainName} blockchain.
+${realDataContext}
+
+IMPORTANT: Use web search to get the LATEST information about ${chainName}, including:
+- Recent mainnet launches or major updates
+- Current developer activity and GitHub commits
+- Security audits and incidents
+- Community adoption metrics
+- Integration complexity for hardware wallets
+- Comparison with similar chains already integrated
 
 COMPLEXITY CLASSIFICATION RULES:
 
@@ -118,13 +145,13 @@ ANALYSIS FOCUS:
 
 Be thorough, specific, and provide actionable insights based on current blockchain technology and Ledger's security requirements.`;
 
-          // Call OpenAI without web search (since it's not supported in current API)
+          // Call OpenAI with web search enabled
           const completion = await openai.chat.completions.create({
             model: ASSESSMENT_MODEL,
             messages: [
               {
                 role: 'system',
-                content: 'You are an expert blockchain integration specialist at Ledger. Provide detailed, actionable assessments for blockchain integration complexity. Use your knowledge to provide accurate assessments.'
+                content: `You are an expert blockchain integration specialist at Ledger. You have access to web search to get the LATEST information about blockchains. Always use web search to verify current data, recent developments, and accurate technical details. Provide detailed, actionable assessments based on real-time information.`
               },
               {
                 role: 'user',
