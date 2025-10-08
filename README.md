@@ -10,7 +10,9 @@ AI-powered blockchain integration complexity assessment tool for Ledger engineer
 - **Real-Time Assessment**: Live analysis with progress tracking and step-by-step updates
 - **Minimal UI**: Clean, monochrome interface focused on functionality
 - **Navigation**: Smooth page transitions with back/forth navigation
+- **Password Protection**: Login page to gate access to the tool
 - **API Protection**: Secure deployment with API key authentication
+- **Session Management**: Secure cookie-based authentication with logout functionality
 
 ## 🛠️ Tech Stack
 
@@ -47,6 +49,9 @@ OPENAI_API_KEY=your_openai_api_key_here
 
 # App API Key (for protecting your OpenAI key when deployed)
 APP_API_KEY=your_app_api_key_here
+
+# Access Password (password to login to the app)
+ACCESS_PASSWORD=your_secure_password_here
 
 # Next.js App URL
 NEXT_PUBLIC_APP_URL=http://localhost:3000
@@ -93,10 +98,12 @@ The app includes API key protection to prevent unauthorized use of your OpenAI A
 
 ## 🎯 Usage
 
-1. **Enter Chain Name**: Type any blockchain name (e.g., Ethereum, SUI, Babylon)
-2. **AI Analysis**: Watch real-time analysis with 4 progress steps
-3. **View Results**: Get comprehensive assessment with generated code
-4. **Navigate**: Use back/forth navigation between pages
+1. **Login**: Enter the password to access the tool
+2. **Enter Chain Name**: Type any blockchain name (e.g., Ethereum, SUI, Babylon)
+3. **AI Analysis**: Watch real-time analysis with 4 progress steps
+4. **View Results**: Get comprehensive assessment with generated code
+5. **Navigate**: Use back/forth navigation between pages
+6. **Logout**: Click the logout button when done
 
 ## 📊 Recent Integrations
 
@@ -130,10 +137,13 @@ The app showcases recent Ledger integrations:
 
 ## 🔒 Security
 
-- **API Key Protection**: Secure deployment with authentication
+- **Password Protection**: Login page gates access to the application
+- **Session Management**: Secure cookie-based authentication
+- **API Key Protection**: Secure deployment with API key authentication
 - **Environment Variables**: Secure key management
 - **Rate Limiting**: Built-in protection against abuse
 - **Input Validation**: Secure data handling
+- **Auto-redirect**: Unauthenticated users are redirected to login
 
 ## 📁 Project Structure
 

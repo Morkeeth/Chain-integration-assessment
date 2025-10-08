@@ -1,7 +1,8 @@
 'use client';
 
-import { ArrowLeft, Home } from 'lucide-react';
+import { ArrowLeft, Home, LogOut } from 'lucide-react';
 import { Button } from '@/app/components/ui/button';
+import { useRouter } from 'next/navigation';
 
 interface NavigationHeaderProps {
   currentStep: 'dashboard' | 'loading' | 'results';
@@ -16,8 +17,35 @@ export function NavigationHeader({
   onNewAnalysis, 
   chainName 
 }: NavigationHeaderProps) {
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/logout', {
+        method: 'POST',
+      });
+      router.push('/login');
+      router.refresh();
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
+
   if (currentStep === 'dashboard') {
-    return null; // No header needed on dashboard
+    // Show logout button on dashboard
+    return (
+      <div className="absolute top-4 right-4">
+        <Button
+          onClick={handleLogout}
+          variant="outline"
+          size="sm"
+          className="flex items-center gap-2"
+        >
+          <LogOut className="h-4 w-4" />
+          Logout
+        </Button>
+      </div>
+    );
   }
 
   return (
@@ -47,13 +75,25 @@ export function NavigationHeader({
           )}
         </div>
 
-        <div className="text-sm text-gray-600">
-          {currentStep === 'loading' && chainName && (
-            <span>Analyzing {chainName}</span>
-          )}
-          {currentStep === 'results' && chainName && (
-            <span>{chainName} Analysis Results</span>
-          )}
+        <div className="flex items-center gap-4">
+          <div className="text-sm text-gray-600">
+            {currentStep === 'loading' && chainName && (
+              <span>Analyzing {chainName}</span>
+            )}
+            {currentStep === 'results' && chainName && (
+              <span>{chainName} Analysis Results</span>
+            )}
+          </div>
+          
+          <Button
+            onClick={handleLogout}
+            variant="outline"
+            size="sm"
+            className="flex items-center gap-2"
+          >
+            <LogOut className="h-4 w-4" />
+            Logout
+          </Button>
         </div>
       </div>
     </div>

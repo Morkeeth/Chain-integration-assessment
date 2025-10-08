@@ -11,6 +11,9 @@ OPENAI_API_KEY=sk-proj-your-actual-openai-key
 # App API Key (generate a random string to protect your OpenAI key)
 APP_API_KEY=your-secure-random-string-here
 
+# Access Password (password to login to the app)
+ACCESS_PASSWORD=your-secure-password-here
+
 # Next.js App URL
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
@@ -23,6 +26,7 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
    - Add the following variables:
      - `OPENAI_API_KEY`: Your OpenAI API key
      - `APP_API_KEY`: A secure random string (e.g., `vercel-deploy-2024-xyz123`)
+     - `ACCESS_PASSWORD`: A strong password for login access (e.g., `MySecurePassword123!`)
      - `NEXT_PUBLIC_APP_URL`: Your Vercel domain
 
 2. **API Protection:**
