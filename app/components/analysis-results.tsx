@@ -30,6 +30,12 @@ interface ChainMetadata {
   githubRepo: string;
   chainType: string;
   isTestnet: boolean;
+  tvl?: number;
+  tvlFormatted?: string;
+  protocols?: number;
+  change24h?: number;
+  chainRank?: number;
+  totalChains?: number;
 }
 
 interface AnalysisResult {

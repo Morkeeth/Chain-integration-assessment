@@ -66,7 +66,9 @@ export async function POST(request: NextRequest) {
             realDataContext += `\n- Total Value Locked: ${chainInfo.tvlFormatted}`;
             realDataContext += `\n- TVL Rank: #${chainInfo.chainRank} out of ${chainInfo.totalChains} chains`;
             realDataContext += `\n- Active Protocols: ${chainInfo.protocols}`;
-            realDataContext += `\n- 24h Change: ${chainInfo.change24h > 0 ? '+' : ''}${chainInfo.change24h}%`;
+            if (chainInfo.change24h !== undefined) {
+              realDataContext += `\n- 24h Change: ${chainInfo.change24h > 0 ? '+' : ''}${chainInfo.change24h}%`;
+            }
           }
           if (chainInfo.rpcUrl && !chainInfo.rpcUrl.includes('To be discovered')) {
             realDataContext += `\n- Verified RPC: ${chainInfo.rpcUrl}`;
