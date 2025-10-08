@@ -109,7 +109,7 @@ export function AnalysisResults({ result, onNewAnalysis }: AnalysisResultsProps)
                 </Badge>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                 <div className="bg-white/5 rounded-xl p-4">
                   <Clock className="h-5 w-5 text-ledger-orange mb-2" />
                   <p className="text-sm text-ledger-gray-400">Estimated Time</p>
@@ -125,7 +125,37 @@ export function AnalysisResults({ result, onNewAnalysis }: AnalysisResultsProps)
                   <p className="text-sm text-ledger-gray-400">Chain Type</p>
                   <p className="text-lg font-semibold text-white">{result.discoveredMetadata?.chainType || 'Unknown'}</p>
                 </div>
+                {result.discoveredMetadata?.tvlFormatted && (
+                  <div className="bg-gradient-to-br from-green-500/10 to-green-600/10 border border-green-500/20 rounded-xl p-4">
+                    <TrendingUp className="h-5 w-5 text-green-400 mb-2" />
+                    <p className="text-sm text-ledger-gray-400">Total TVL</p>
+                    <p className="text-lg font-semibold text-green-400">{result.discoveredMetadata.tvlFormatted}</p>
+                    {result.discoveredMetadata.chainRank && (
+                      <p className="text-xs text-green-300/60 mt-1">#{result.discoveredMetadata.chainRank} globally</p>
+                    )}
+                  </div>
+                )}
               </div>
+
+              {result.discoveredMetadata?.protocols && (
+                <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4 mb-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm text-blue-300">Active DeFi Protocols</p>
+                      <p className="text-2xl font-bold text-blue-400">{result.discoveredMetadata.protocols}</p>
+                    </div>
+                    {result.discoveredMetadata.change24h !== undefined && (
+                      <div className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                        result.discoveredMetadata.change24h >= 0 
+                          ? 'bg-green-500/20 text-green-400' 
+                          : 'bg-red-500/20 text-red-400'
+                      }`}>
+                        {result.discoveredMetadata.change24h >= 0 ? '+' : ''}{result.discoveredMetadata.change24h}% 24h
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
 
               <div className="bg-white/5 rounded-xl p-4">
                 <h3 className="text-lg font-semibold text-white mb-3">Technical Reasoning</h3>
