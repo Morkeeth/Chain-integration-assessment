@@ -18,7 +18,7 @@ interface MinimalAssessmentFormProps {
 // ⏰ Q3-Q4 2025: Monad
 
 const recentChains = [
-  'Berachain 🔥', 'Movement 🔥', 'Hyperliquid 🔥', 'Monad', 'Starknet', 'Base ✅', 'Arbitrum ✅', 'Aptos ✅'
+  'Berachain 🔥', 'Movement 🔥', 'Hyperliquid 🔥', 'Monad', 'Starknet', 'Bittensor'
 ];
 
 export function MinimalAssessmentForm({ onAnalyze, isLoading }: MinimalAssessmentFormProps) {
@@ -111,14 +111,11 @@ export function MinimalAssessmentForm({ onAnalyze, isLoading }: MinimalAssessmen
         <div className="mt-12">
           <div className="flex flex-wrap justify-center gap-2">
             {recentChains.map((chain) => {
-              const isSupported = chain.includes('✅');
               const isImmediate = chain.includes('🔥');
-              const cleanName = chain.replace(' ✅', '').replace(' 🔥', '');
+              const cleanName = chain.replace(' 🔥', '');
               
               let buttonClass = 'bg-gray-50 hover:bg-gray-100 border-gray-200 text-gray-700';
-              if (isSupported) {
-                buttonClass = 'bg-white hover:bg-gray-50 border-gray-300 text-gray-800';
-              } else if (isImmediate) {
+              if (isImmediate) {
                 buttonClass = 'bg-black hover:bg-gray-900 border-black text-white font-semibold';
               }
               
