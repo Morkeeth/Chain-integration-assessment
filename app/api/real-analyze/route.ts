@@ -4,17 +4,6 @@ import { BlockchainDataService } from '@/app/lib/blockchain-data';
 
 export async function POST(request: NextRequest) {
   try {
-    // Check for API key protection
-    const apiKey = request.headers.get('x-api-key');
-    const expectedApiKey = process.env.APP_API_KEY;
-    
-    if (expectedApiKey && apiKey !== expectedApiKey) {
-      return NextResponse.json(
-        { error: 'Unauthorized: Invalid API key' },
-        { status: 401 }
-      );
-    }
-    
     const { chainName } = await request.json();
     
     if (!chainName) {

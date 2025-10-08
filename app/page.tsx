@@ -28,10 +28,6 @@ export default function Home() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          // Add API key header if available (for production)
-          ...(process.env.NEXT_PUBLIC_APP_API_KEY && {
-            'x-api-key': process.env.NEXT_PUBLIC_APP_API_KEY
-          })
         },
         body: JSON.stringify({ chainName }),
       });
