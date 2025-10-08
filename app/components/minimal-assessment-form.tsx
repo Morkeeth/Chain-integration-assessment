@@ -108,33 +108,25 @@ export function MinimalAssessmentForm({ onAnalyze, isLoading }: MinimalAssessmen
         </form>
 
         {/* Recent Chains */}
-        <div className="mt-8">
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <p className="text-sm text-gray-500">Test with chains:</p>
-            <div className="flex items-center gap-2 text-xs">
-              <span className="px-2 py-1 bg-green-50 text-green-600 rounded border border-green-200">✅ Supported</span>
-              <span className="px-2 py-1 bg-red-50 text-red-600 rounded border border-red-200 font-bold">🔥 IMMEDIATE</span>
-              <span className="px-2 py-1 bg-orange-50 text-orange-600 rounded border border-orange-200">Soon</span>
-            </div>
-          </div>
+        <div className="mt-12">
           <div className="flex flex-wrap justify-center gap-2">
             {recentChains.map((chain) => {
               const isSupported = chain.includes('✅');
               const isImmediate = chain.includes('🔥');
               const cleanName = chain.replace(' ✅', '').replace(' 🔥', '');
               
-              let buttonClass = 'bg-orange-50 hover:bg-orange-100 border-orange-200 text-orange-700';
+              let buttonClass = 'bg-gray-50 hover:bg-gray-100 border-gray-200 text-gray-700';
               if (isSupported) {
-                buttonClass = 'bg-green-50 hover:bg-green-100 border-green-200 text-green-700';
+                buttonClass = 'bg-white hover:bg-gray-50 border-gray-300 text-gray-800';
               } else if (isImmediate) {
-                buttonClass = 'bg-red-50 hover:bg-red-100 border-red-200 text-red-700 font-bold';
+                buttonClass = 'bg-black hover:bg-gray-900 border-black text-white font-semibold';
               }
               
               return (
                 <button
                   key={chain}
                   onClick={() => handleChainClick(cleanName)}
-                  className={`px-4 py-2 border rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 ${buttonClass}`}
+                  className={`px-4 py-2 border rounded-lg text-sm transition-all duration-200 hover:scale-105 ${buttonClass}`}
                   disabled={isLoading}
                 >
                   {chain}
@@ -142,9 +134,6 @@ export function MinimalAssessmentForm({ onAnalyze, isLoading }: MinimalAssessmen
               );
             })}
           </div>
-          <p className="text-xs text-gray-400 text-center mt-3">
-            Based on <a href="https://www.ledger.com/supported-crypto-assets" target="_blank" rel="noopener" className="underline hover:text-gray-600">Ledger's official list</a>
-          </p>
         </div>
       </motion.div>
     </div>
