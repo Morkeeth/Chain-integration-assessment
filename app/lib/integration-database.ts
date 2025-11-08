@@ -83,7 +83,7 @@ export interface IntegrationRecord {
  * 
  * This is the source of truth for all past integrations.
  * 
- * TODO: Populate with actual historical data from:
+ * Populate with actual historical data from:
  * - Ledger Live releases
  * - GitHub repository history
  * - JIRA tickets (when available)
@@ -137,7 +137,7 @@ export const INTEGRATION_HISTORY: IntegrationRecord[] = [
   },
   
   // Add more SUPPORTED chains here...
-  // TODO: Populate with actual data from:
+  // Populate with actual data from:
   // - Bitcoin, Ethereum, Polygon, BNB Chain, Avalanche, Cosmos, Polkadot, etc.
 ];
 

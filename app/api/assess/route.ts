@@ -1,11 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { openai, ASSESSMENT_MODEL, MAX_TOKENS, TEMPERATURE } from '@/app/lib/openai';
-import { buildAssessmentPrompt } from '@/app/lib/prompts';
 import { buildEnhancedAssessmentPrompt } from '@/app/lib/enhanced-prompts';
 import { assessChainComplexity } from '@/app/lib/rule-based-assessment';
 import { AssessmentFormData } from '@/app/types/assessment';
-import { searchChains, getChainByName } from '@/app/lib/chain-database';
-import { GitHubIntegrationService } from '@/app/lib/github-integration';
 import { BlockchainDataService } from '@/app/lib/blockchain-data';
 
 // Force dynamic rendering to prevent build-time execution

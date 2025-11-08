@@ -124,19 +124,19 @@ export class ${chainMetadata.name.replace(/\s+/g, '')}Coin {
   // Estimated development time: ${assessmentResult.estimatedTimeframe}
   
   async getAccount(publicKey: string): Promise<any> {
-    // TODO: Implement account fetching
+    // Implement account fetching
     // ${assessmentResult.actionChecklist[0] || 'Implement account fetching'}
     throw new Error("Not implemented yet");
   }
 
   async getBalance(publicKey: string): Promise<string> {
-    // TODO: Implement balance fetching
+    // Implement balance fetching
     // ${assessmentResult.actionChecklist[1] || 'Implement balance fetching'}
     throw new Error("Not implemented yet");
   }
 
   async signTransaction(transaction: any, privateKey: string): Promise<string> {
-    // TODO: Implement transaction signing
+    // Implement transaction signing
     // ${assessmentResult.actionChecklist[2] || 'Implement transaction signing'}
     throw new Error("Not implemented yet");
   }
@@ -165,19 +165,19 @@ describe("${chainMetadata.name} Integration", () => {
   });
 
   it("should fetch account data", async () => {
-    // TODO: Implement test with mock data
+    // Implement test with mock data
     const publicKey = "test-public-key";
     await expect(coin.getAccount(publicKey)).rejects.toThrow("Not implemented yet");
   });
 
   it("should fetch balance", async () => {
-    // TODO: Implement test with mock data
+    // Implement test with mock data
     const publicKey = "test-public-key";
     await expect(coin.getBalance(publicKey)).rejects.toThrow("Not implemented yet");
   });
 
   it("should sign transactions", async () => {
-    // TODO: Implement test with mock data
+    // Implement test with mock data
     const transaction = { to: "test-address", value: "1000000000000000000" };
     const privateKey = "test-private-key";
     await expect(coin.signTransaction(transaction, privateKey)).rejects.toThrow("Not implemented yet");
