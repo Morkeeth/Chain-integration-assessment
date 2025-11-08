@@ -142,12 +142,13 @@
 
 ### 2. Test GPT-5/GPT-4o (P0 - THIS WEEK)
 
-**What**: Compare GPT-4 Turbo vs GPT-5/GPT-4o
+**What**: Compare GPT-4 Turbo vs GPT-5/GPT-4o (and Claude 3.5 Sonnet)
 
 **Why**:
 - Better accuracy for pitch
 - May have better cost/performance
 - Shows we're using latest tech
+- See [Model Analysis](MODEL_ANALYSIS.md) for detailed comparison
 
 **Who**: Engineering
 
@@ -155,25 +156,30 @@
 
 **Test Plan**:
 1. Run same assessment with GPT-4 Turbo
-2. Run same assessment with GPT-5/GPT-4o
-3. Compare:
+2. Run same assessment with GPT-4o
+3. Run same assessment with Claude 3.5 Sonnet (recommended)
+4. Compare:
    - Accuracy (complexity classification)
    - Response quality
    - Cost per assessment
    - Speed
-4. Document results
+5. Document results
 
 **Action Items**:
-- [ ] Update `app/lib/openai.ts` to support GPT-5
+- [ ] Update `app/lib/openai.ts` to support GPT-4o
+- [ ] Add Claude 3.5 Sonnet support (see [Model Analysis](MODEL_ANALYSIS.md))
 - [ ] Create test script
 - [ ] Run comparison tests
 - [ ] Document results
 - [ ] Update model recommendation
 
 **Success Criteria**:
-- ✅ GPT-5 tested and compared
+- ✅ GPT-4o tested and compared
+- ✅ Claude 3.5 Sonnet tested (recommended)
 - ✅ Model recommendation updated
 - ✅ Results ready for pitch
+
+**See**: [Model Analysis](MODEL_ANALYSIS.md) for detailed model comparison and recommendations
 
 ---
 

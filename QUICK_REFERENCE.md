@@ -218,6 +218,7 @@ GITHUB_TOKEN=your_token  # Optional, increases rate limits
 - `README.md` - Project overview
 - `BUILD.md` - Technical details
 - `docs/ARCHITECTURE.md` - System design
+- `docs/MODEL_ANALYSIS.md` - Alternative models & tools analysis
 
 **For Next Steps**:
 - `docs/CRITICAL_ANALYSIS.md` - Priorities and action items

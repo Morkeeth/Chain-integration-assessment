@@ -153,6 +153,7 @@ All detailed documentation is in the `docs/` folder:
 - **[Handoff Guide](HANDOFF.md)** ⭐⭐ - **For AI Assistants & New Developers** - Quick onboarding
 - **[Contributing Guide](CONTRIBUTING.md)** - How to contribute to this project
 - **[Critical Analysis](docs/CRITICAL_ANALYSIS.md)** ⭐ - Honest assessment & next steps
+- **[Model Analysis](docs/MODEL_ANALYSIS.md)** ⭐ - **Alternative models & tools analysis** - Constraints, recommendations
 - **[Pitch Deck](docs/PITCH_DECK.md)** ⭐ - Monday presentation
 - **[Build Guide](BUILD.md)** - Technical details, progress, features, DB, models
 - **[Architecture](docs/ARCHITECTURE.md)** - Complete system architecture

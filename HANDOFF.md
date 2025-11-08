@@ -350,6 +350,7 @@ GITHUB_TOKEN=your_token  # Optional, increases rate limits
 - `BUILD.md` - Technical details, progress, features
 - `docs/ARCHITECTURE.md` - System architecture
 - `docs/CRITICAL_ANALYSIS.md` - Honest assessment & next steps
+- `docs/MODEL_ANALYSIS.md` - Alternative models & tools analysis
 
 **For Usage**:
 - `docs/QUICK_START.md` - Usage guide
