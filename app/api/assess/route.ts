@@ -8,6 +8,10 @@ import { searchChains, getChainByName } from '@/app/lib/chain-database';
 import { GitHubIntegrationService } from '@/app/lib/github-integration';
 import { BlockchainDataService } from '@/app/lib/blockchain-data';
 
+// Force dynamic rendering to prevent build-time execution
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 export async function POST(request: NextRequest) {
   try {
     const body: AssessmentFormData = await request.json();
@@ -45,7 +49,7 @@ export async function POST(request: NextRequest) {
     const stream = new ReadableStream({
       async start(controller) {
         try {
-          const completion = await openai.chat.completions.create({
+          const completion = await openai().chat.completions.create({
             model: ASSESSMENT_MODEL,
             messages: [
               {

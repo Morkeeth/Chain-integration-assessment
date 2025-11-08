@@ -1,8 +1,20 @@
 import OpenAI from 'openai';
 
-export const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// Lazy initialization to prevent build-time errors
+let openaiInstance: OpenAI | null = null;
+
+export const openai = (): OpenAI => {
+  if (!openaiInstance) {
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) {
+      throw new Error('OPENAI_API_KEY environment variable is required');
+    }
+    openaiInstance = new OpenAI({
+      apiKey,
+    });
+  }
+  return openaiInstance;
+};
 
 // Model selection: GPT-5/GPT-4o available, using as default
 // Fallback to GPT-4 Turbo if GPT-5 not available

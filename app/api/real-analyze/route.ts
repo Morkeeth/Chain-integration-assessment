@@ -3,6 +3,10 @@ import { openai, ASSESSMENT_MODEL, MAX_TOKENS, TEMPERATURE } from '@/app/lib/ope
 import { BlockchainDataService } from '@/app/lib/blockchain-data';
 import { PrioritizationService } from '@/app/lib/prioritization-score';
 
+// Force dynamic rendering to prevent build-time execution
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 export async function POST(request: NextRequest) {
   try {
     const { chainName } = await request.json();
@@ -149,7 +153,7 @@ ANALYSIS FOCUS:
 Be thorough, specific, and provide actionable insights based on current blockchain technology and Ledger's security requirements.`;
 
           // Call OpenAI with web search enabled
-          const completion = await openai.chat.completions.create({
+          const completion = await openai().chat.completions.create({
             model: ASSESSMENT_MODEL,
             messages: [
               {

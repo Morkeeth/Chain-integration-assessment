@@ -3,6 +3,10 @@ import { openai, ASSESSMENT_MODEL, MAX_TOKENS, TEMPERATURE } from '@/app/lib/ope
 import { searchChains, getChainByName } from '@/app/lib/chain-database';
 import { GitHubIntegrationService } from '@/app/lib/github-integration';
 
+// Force dynamic rendering to prevent build-time execution
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 export async function POST(request: NextRequest) {
   try {
     const { chainName } = await request.json();
@@ -89,7 +93,7 @@ Be specific and actionable in your recommendations.`;
     const stream = new ReadableStream({
       async start(controller) {
         try {
-          const completion = await openai.chat.completions.create({
+          const completion = await openai().chat.completions.create({
             model: ASSESSMENT_MODEL,
             messages: [
               {
