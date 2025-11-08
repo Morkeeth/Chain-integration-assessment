@@ -1,0 +1,77 @@
+# Cursor Rules for Chain Integration Assessment Tool
+
+## Project Context
+
+This is a hybrid deterministic + AI system for evaluating blockchain integrations at Ledger.
+
+**Two-Stage System**:
+- **Stage 1 (Sales)**: Rule-based, < 1s, 95% accuracy - `app/lib/rule-based-assessment.ts`
+- **Stage 2 (Technical)**: AI-powered, ~10s, 85% accuracy - `app/api/assess/route.ts`
+
+**Current Status**: Phase 1 complete, Phase 2 in progress (data population needed)
+
+## Key Files
+
+- `app/lib/rule-based-assessment.ts` - Stage 1 rules (70+ patterns)
+- `app/lib/integration-database.ts` - Historical data (source of truth) - **NEEDS DATA POPULATION**
+- `app/lib/enhanced-prompts.ts` - AI context injection
+- `app/lib/openai.ts` - Model configuration (GPT-4o default)
+- `app/api/sales-assess/route.ts` - Stage 1 API endpoint
+- `app/api/assess/route.ts` - Stage 2 API endpoint
+
+## Critical Next Steps
+
+1. **Populate Integration Database** (P0 - CRITICAL)
+   - File: `app/lib/integration-database.ts`
+   - Only Solana in database, need ~20+ SUPPORTED chains
+   - See `docs/CRITICAL_ANALYSIS.md` for details
+
+2. **Test GPT-5/GPT-4o** (P0)
+   - File: `app/lib/openai.ts`
+   - Compare with GPT-4 Turbo
+
+3. **Run GitHub Analysis** (P0)
+   - API: `GET /api/github-analyze?action=all`
+   - Extract real integration timelines
+
+## Code Style
+
+- TypeScript for all new code
+- Follow existing patterns
+- Add comments for complex logic
+- Use meaningful variable names
+
+## Documentation
+
+- **For AI Assistants**: Start with `HANDOFF.md`
+- **For Understanding**: `README.md`, `BUILD.md`, `docs/ARCHITECTURE.md`
+- **For Next Steps**: `docs/CRITICAL_ANALYSIS.md`
+- **For Contributing**: `CONTRIBUTING.md`
+
+## Important Notes
+
+- Stage 1 is rule-based (no AI) - deterministic, fast
+- Stage 2 uses AI with historical context from integration database
+- Integration database is the source of truth - needs data population
+- Enhanced prompts inject historical context into AI assessments
+- Model default is GPT-4o, fallback to GPT-4 Turbo
+
+## When Making Changes
+
+- **Adding chain patterns**: `app/lib/rule-based-assessment.ts` → `CHAIN_PATTERNS` array
+- **Adding historical data**: `app/lib/integration-database.ts` → `INTEGRATION_HISTORY` array
+- **Changing AI model**: `app/lib/openai.ts` → `ASSESSMENT_MODEL` or `OPENAI_MODEL` env var
+- **Modifying prompts**: `app/lib/enhanced-prompts.ts` → `buildEnhancedPrompt()`
+
+## Testing
+
+- Stage 1: `POST /api/sales-assess` with `{"chainName": "Berachain"}`
+- Stage 2: Use UI at http://localhost:3000
+- Integration database: `isChainSupported('Solana')` should return `true`
+
+## Environment Variables
+
+- `OPENAI_API_KEY` (required)
+- `OPENAI_MODEL` (optional, default: `gpt-4o`)
+- `GITHUB_TOKEN` (optional, for scraper)
+

@@ -150,6 +150,8 @@ A **hybrid deterministic + AI system** for evaluating blockchain integrations at
 
 All detailed documentation is in the `docs/` folder:
 
+- **[Handoff Guide](HANDOFF.md)** ⭐⭐ - **For AI Assistants & New Developers** - Quick onboarding
+- **[Contributing Guide](CONTRIBUTING.md)** - How to contribute to this project
 - **[Critical Analysis](docs/CRITICAL_ANALYSIS.md)** ⭐ - Honest assessment & next steps
 - **[Pitch Deck](docs/PITCH_DECK.md)** ⭐ - Monday presentation
 - **[Build Guide](BUILD.md)** - Technical details, progress, features, DB, models
@@ -173,6 +175,23 @@ All detailed documentation is in the `docs/` folder:
 - **Stage 2**: GPT-5/GPT-4o (primary), GPT-4 Turbo (fallback)
 
 See [Build Guide](BUILD.md) for detailed model information.
+
+---
+
+## 🤖 For AI Assistants (Cursor, etc.)
+
+**New to this project? Start here:**
+
+1. **Read `HANDOFF.md`** ⭐ - Complete onboarding guide for AI assistants
+2. **Read `QUICK_REFERENCE.md`** - Quick lookup for common tasks
+3. **Read `docs/CRITICAL_ANALYSIS.md`** - Understand what needs to happen next
+
+**Key Context**:
+- Two-stage system: Rule-based (Stage 1) + AI-powered (Stage 2)
+- Integration database needs data population (CRITICAL)
+- Current status: Phase 1 complete, Phase 2 in progress
+
+**Most Critical Task**: Populate integration database with SUPPORTED chains (see `docs/CRITICAL_ANALYSIS.md`)
 
 ---
 
