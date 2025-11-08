@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { openai, ASSESSMENT_MODEL, MAX_TOKENS, TEMPERATURE } from '@/app/lib/openai';
 import { buildAssessmentPrompt } from '@/app/lib/prompts';
+import { buildEnhancedAssessmentPrompt } from '@/app/lib/enhanced-prompts';
+import { assessChainComplexity } from '@/app/lib/rule-based-assessment';
 import { AssessmentFormData } from '@/app/types/assessment';
 import { searchChains, getChainByName } from '@/app/lib/chain-database';
 import { GitHubIntegrationService } from '@/app/lib/github-integration';
+import { BlockchainDataService } from '@/app/lib/blockchain-data';
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,8 +20,26 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Build the assessment prompt
-    const prompt = buildAssessmentPrompt(body);
+    // Get initial rule-based assessment for context
+    const chainInfo = await BlockchainDataService.getChainInfo(body.chainName);
+    const initialAssessment = assessChainComplexity(
+      body.chainName,
+      chainInfo.tvl,
+      chainInfo.chainRank,
+      chainInfo.protocols,
+      true
+    );
+    
+    // Build enhanced prompt with historical context
+    const prompt = buildEnhancedAssessmentPrompt(
+      body.chainName,
+      initialAssessment,
+      {
+        tvl: chainInfo.tvl,
+        rank: chainInfo.chainRank,
+        protocols: chainInfo.protocols
+      }
+    );
     
     // Create streaming response
     const stream = new ReadableStream({
@@ -29,7 +50,7 @@ export async function POST(request: NextRequest) {
             messages: [
               {
                 role: 'system',
-                content: 'You are an expert blockchain integration specialist at Ledger. Provide detailed, actionable assessments for blockchain integration complexity. Use web search if you need current information about the blockchain.'
+                content: 'You are an expert blockchain integration specialist at Ledger with access to historical integration data. Provide detailed, actionable assessments that reference past integrations and lessons learned. Use web search if you need current information about the blockchain.'
               },
               {
                 role: 'user',

@@ -1,60 +1,98 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import { MinimalHero } from '@/app/components/minimal-hero';
 import { MinimalAssessmentForm } from '@/app/components/minimal-assessment-form';
-import { AnalysisLoading } from '@/app/components/analysis-loading';
-import { CodeResults } from '@/app/components/code-results';
+import { SalesResults } from '@/app/components/sales-results';
+import { AssessmentForm } from '@/app/components/assessment-form';
+import { ResultsDisplay } from '@/app/components/results-display';
 import { CommandPalette } from '@/app/components/command-palette';
 import { NavigationHeader } from '@/app/components/navigation-header';
-import { AnalysisHistoryService } from '@/app/lib/analysis-history';
+import { RuleBasedAssessment } from '@/app/lib/rule-based-assessment';
+import { AssessmentFormData, AssessmentResult } from '@/app/types/assessment';
 import { Toaster } from 'react-hot-toast';
 import toast from 'react-hot-toast';
 
+type AppStep = 'sales-input' | 'sales-results' | 'tech-form' | 'tech-results';
+
 export default function Home() {
-  const [currentStep, setCurrentStep] = useState<'dashboard' | 'loading' | 'results'>('dashboard');
+  const [currentStep, setCurrentStep] = useState<AppStep>('sales-input');
   const [isLoading, setIsLoading] = useState(false);
   const [currentChainName, setCurrentChainName] = useState('');
-  const [loadingStep, setLoadingStep] = useState(1);
-  const [analysisResult, setAnalysisResult] = useState<any>(null);
+  
+  // Sales assessment state
+  const [salesAssessment, setSalesAssessment] = useState<RuleBasedAssessment | null>(null);
+  const [chainData, setChainData] = useState<any>(null);
+  
+  // Technical assessment state
+  const [techAssessment, setTechAssessment] = useState<AssessmentResult | null>(null);
+  const [techMetadata, setTechMetadata] = useState<any>(null);
 
-  const handleAnalyze = async (chainName: string) => {
+  /**
+   * STEP 1: Quick Sales Assessment
+   * Uses deterministic rule-based system
+   */
+  const handleSalesAssessment = async (chainName: string) => {
     setIsLoading(true);
     setCurrentChainName(chainName);
-    setCurrentStep('loading');
-    setLoadingStep(1);
-    
-    // Check cache first
-    const cached = AnalysisHistoryService.getCachedAnalysis(chainName);
-    if (cached) {
-      toast.success('Loaded from cache (24h)', { duration: 2000 });
-      setAnalysisResult(cached.fullAnalysis);
-      setCurrentStep('results');
-      setIsLoading(false);
-      return;
-    }
     
     try {
-      const response = await fetch('/api/real-analyze', {
+      const response = await fetch('/api/sales-assess', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ chainName }),
       });
 
       if (!response.ok) {
-        throw new Error('Analysis failed');
+        throw new Error('Assessment failed');
       }
 
+      const result = await response.json();
+      setSalesAssessment(result);
+      setChainData(result.chainData);
+      setCurrentStep('sales-results');
+      toast.success('Sales assessment complete!', { duration: 2000 });
+    } catch (error) {
+      console.error('Sales assessment error:', error);
+      toast.error('Assessment failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  /**
+   * STEP 2: Navigate to detailed technical form
+   */
+  const handleGoToTechnicalForm = () => {
+    setCurrentStep('tech-form');
+  };
+
+  /**
+   * STEP 3: Detailed Technical Assessment
+   * Uses AI + comprehensive form data
+   */
+  const handleTechnicalAssessment = async (formData: AssessmentFormData) => {
+    setIsLoading(true);
+    
+    try {
+      const response = await fetch('/api/assess', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Technical assessment failed');
+      }
+
+      // Stream the response
       const reader = response.body?.getReader();
       if (!reader) {
         throw new Error('No response body');
       }
 
       const decoder = new TextDecoder();
-      let fullResult = null;
+      let fullResponse = '';
 
       while (true) {
         const { done, value } = await reader.read();
@@ -67,20 +105,8 @@ export default function Home() {
           if (line.startsWith('data: ')) {
             try {
               const data = JSON.parse(line.slice(6));
-              
-              if (data.type === 'step') {
-                setLoadingStep(data.step);
-              } else if (data.type === 'content') {
-                // Content streaming - could be used for real-time updates
-              } else if (data.type === 'result') {
-                fullResult = data;
-                setAnalysisResult(data);
-                setCurrentStep('results');
-                // Save to history
-                AnalysisHistoryService.saveAnalysis(chainName, data);
-                toast.success('Analysis saved to history', { duration: 2000 });
-              } else if (data.type === 'error') {
-                throw new Error(data.error);
+              if (data.content) {
+                fullResponse += data.content;
               }
             } catch (e) {
               // Ignore parsing errors for streaming
@@ -89,54 +115,57 @@ export default function Home() {
         }
       }
 
-      if (!fullResult) {
-        throw new Error('No analysis result received');
+      // Parse the final JSON result
+      const jsonMatch = fullResponse.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) {
+        throw new Error('No valid assessment returned');
       }
+
+      const assessment = JSON.parse(jsonMatch[0]);
+      setTechAssessment(assessment);
+      setTechMetadata({
+        rpcUrl: formData.rpcUrl,
+        ticker: formData.ticker,
+        iconUrl: formData.iconUrl,
+        chainId: formData.chainId,
+        explorerUrl: formData.explorerUrl,
+        githubRepo: formData.githubRepo,
+      });
+      setCurrentStep('tech-results');
+      toast.success('Technical assessment complete!', { duration: 2000 });
     } catch (error) {
-      console.error('Analysis error:', error);
-      alert('Analysis failed. Please try again.');
-      setCurrentStep('dashboard');
+      console.error('Technical assessment error:', error);
+      toast.error('Technical assessment failed. Please try again.');
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleNewAnalysis = () => {
-    setCurrentStep('dashboard');
-    setAnalysisResult(null);
+  const handleNewAssessment = () => {
+    setCurrentStep('sales-input');
+    setSalesAssessment(null);
+    setChainData(null);
+    setTechAssessment(null);
+    setTechMetadata(null);
     setCurrentChainName('');
-    setLoadingStep(1);
   };
 
   const handleBackToDashboard = () => {
-    setCurrentStep('dashboard');
+    setCurrentStep('sales-input');
   };
 
   const handleChainSelect = (chainName: string) => {
-    handleAnalyze(chainName);
-  };
-
-  const handleNewAssessment = () => {
-    setCurrentStep('dashboard');
-  };
-
-  const handleSearchHistory = () => {
-    // TODO: Implement history search
-    console.log('Search history');
-  };
-
-  const handleExportReport = () => {
-    // TODO: Implement export
-    console.log('Export report');
+    handleSalesAssessment(chainName);
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gray-50">
       {/* Navigation Header */}
       <NavigationHeader
-        currentStep={currentStep}
+        currentStep={currentStep === 'sales-input' ? 'dashboard' : 
+                    currentStep === 'sales-results' || currentStep === 'tech-results' ? 'results' : 'loading'}
         onBackToDashboard={handleBackToDashboard}
-        onNewAnalysis={handleNewAnalysis}
+        onNewAnalysis={handleNewAssessment}
         chainName={currentChainName}
       />
 
@@ -144,39 +173,68 @@ export default function Home() {
       <CommandPalette
         onChainSelect={handleChainSelect}
         onNewAssessment={handleNewAssessment}
-        onSearchHistory={handleSearchHistory}
-        onExportReport={handleExportReport}
+        onSearchHistory={() => console.log('Search history')}
+        onExportReport={() => console.log('Export report')}
       />
 
       {/* Toast Notifications */}
       <Toaster position="bottom-right" />
 
-      {currentStep === 'dashboard' && (
-        <div className="px-4 py-16 max-w-4xl mx-auto">
-          {/* Minimal hero section */}
-          <MinimalHero />
+      <div className="px-4 py-8">
+        {/* STEP 1: Sales Input */}
+        {currentStep === 'sales-input' && (
+          <div className="max-w-4xl mx-auto">
+            <MinimalHero />
+            <MinimalAssessmentForm
+              onAnalyze={handleSalesAssessment}
+              isLoading={isLoading}
+            />
+          </div>
+        )}
 
-          {/* Minimal assessment form */}
-          <MinimalAssessmentForm
-            onAnalyze={handleAnalyze}
-            isLoading={isLoading}
+        {/* STEP 2: Sales Results */}
+        {currentStep === 'sales-results' && salesAssessment && chainData && (
+          <SalesResults
+            assessment={salesAssessment}
+            chainData={chainData}
+            onNewAssessment={handleNewAssessment}
+            onDetailedAssessment={handleGoToTechnicalForm}
           />
-        </div>
-      )}
+        )}
 
-      {currentStep === 'loading' && (
-        <AnalysisLoading
-          chainName={currentChainName}
-          currentStep={loadingStep}
-        />
-      )}
+        {/* STEP 3: Technical Form */}
+        {currentStep === 'tech-form' && (
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 mb-6">
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                Detailed Technical Assessment
+              </h2>
+              <p className="text-gray-600 mb-6">
+                Upload the technical questionnaire from the foundation team for a comprehensive 
+                engineering analysis.
+              </p>
+            </div>
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+              <AssessmentForm
+                onSubmit={handleTechnicalAssessment}
+                isLoading={isLoading}
+              />
+            </div>
+          </div>
+        )}
 
-      {currentStep === 'results' && analysisResult && (
-        <CodeResults
-          result={analysisResult}
-          onNewAnalysis={handleNewAnalysis}
-        />
-      )}
+        {/* STEP 4: Technical Results */}
+        {currentStep === 'tech-results' && techAssessment && (
+          <div className="max-w-4xl mx-auto">
+            <ResultsDisplay
+              result={techAssessment}
+              chainName={currentChainName}
+              chainMetadata={techMetadata}
+              onNewAssessment={handleNewAssessment}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

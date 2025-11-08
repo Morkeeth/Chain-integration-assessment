@@ -87,14 +87,14 @@ export function MinimalHero() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex items-center justify-center gap-4 mb-8"
+        className="flex items-center justify-center gap-4 mb-4"
       >
         <div className="w-12 h-12 bg-black rounded-xl flex items-center justify-center">
           <Code className="h-6 w-6 text-white" />
         </div>
         <div>
-          <h1 className="text-4xl font-bold text-black">Chain Integration Assessment</h1>
-          <p className="text-gray-600">AI-powered blockchain integration analysis</p>
+          <h1 className="text-4xl font-bold text-black">Chain Integration Assessor</h1>
+          <p className="text-gray-600">Rule-based early sales assessment tool</p>
         </div>
       </motion.div>
 
@@ -102,15 +102,39 @@ export function MinimalHero() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="flex items-center justify-center gap-8 text-sm text-gray-600"
+        className="max-w-2xl mx-auto"
       >
-        <div className="flex items-center gap-2">
-          <CheckCircle className="h-4 w-4 text-green-600" />
-          <span>8 chains integrated</span>
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+          <div className="flex items-start gap-3">
+            <div className="flex-shrink-0 mt-0.5">
+              <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
+                <span className="text-white text-xs font-bold">1</span>
+              </div>
+            </div>
+            <div className="flex-1 text-left">
+              <div className="font-semibold text-blue-900 text-sm mb-1">Sales-First Approach</div>
+              <div className="text-blue-700 text-xs">Get instant, deterministic complexity assessment for sales conversations. No AI guesswork - pure rules.</div>
+            </div>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          <TrendingUp className="h-4 w-4 text-green-600" />
-          <span>98% success rate</span>
+        
+        <div className="grid grid-cols-2 gap-4 text-sm">
+          <div className="flex items-center gap-2 justify-center">
+            <CheckCircle className="h-4 w-4 text-green-600" />
+            <span className="text-gray-700">Instant Assessment</span>
+          </div>
+          <div className="flex items-center gap-2 justify-center">
+            <TrendingUp className="h-4 w-4 text-green-600" />
+            <span className="text-gray-700">Business Metrics</span>
+          </div>
+          <div className="flex items-center gap-2 justify-center">
+            <Zap className="h-4 w-4 text-orange-500" />
+            <span className="text-gray-700">Clear Next Steps</span>
+          </div>
+          <div className="flex items-center gap-2 justify-center">
+            <Code className="h-4 w-4 text-purple-600" />
+            <span className="text-gray-700">Optional Deep Dive</span>
+          </div>
         </div>
       </motion.div>
     </div>
