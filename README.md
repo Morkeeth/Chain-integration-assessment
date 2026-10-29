@@ -1,7 +1,19 @@
 # Chain Integration Assessment Tool
 
+## TLDR
+
+A blockchain-integration assessment tool combining deterministic scoring and an optional AI path.<br>
+For sales, product and engineering reviewers comparing integration questions and evidence.<br>
+Repository documentation describes an implementation; validate current requirements before using an assessment for a business decision.
+
+## Review and pick up the work
+
+[Agent guide](AGENTS.md)
+
+Start with the linked source, setup and evidence. Recorded demos and sample data keep their original scope; use the repository instructions for a fresh run.
+
 **Version**: 2.0  
-**Status**: Production-Ready (Phase 1 Complete)  
+**Status**: Implementation snapshot; production readiness needs current validation  
 **Purpose**: Sales-focused blockchain integration assessment for Ledger
 
 ---
@@ -21,7 +33,7 @@ A **hybrid deterministic + AI system** for evaluating blockchain integrations at
   - Sales team couldn't confidently quote prospects
 
 **After**: Hybrid system that:
-- ✅ **Stage 1 (Sales)**: Rule-based, 100% consistent, < 1 second
+- ✅ **Stage 1 (Sales)**: Rule-based assessment; measure consistency and latency on the intended inputs
 - ✅ **Stage 2 (Technical)**: AI-powered with historical context, ~10 seconds
 - ✅ **Integration Database**: Source of truth for all integrations
 - ✅ **Historical Learning**: AI learns from past mistakes
@@ -55,17 +67,17 @@ A **hybrid deterministic + AI system** for evaluating blockchain integrations at
 
 ---
 
+The earlier README stated accuracy, latency and consistency percentages without a linked evaluation population. Those figures are not treated as established results here. Validate the deterministic rules and the optional AI path separately.
+
 ## 📊 Key Features
 
 ### Stage 1: Sales Assessment (Rule-Based)
 - ⚡ **Speed**: < 1 second
-- ✅ **Accuracy**: 95% (deterministic)
 - 📈 **Coverage**: 70+ blockchain patterns
 - 💰 **Output**: Complexity, timeline, cost, priority, business metrics
 
 ### Stage 2: Technical Assessment (AI-Powered)
 - 🧠 **Speed**: ~10 seconds
-- 🎯 **Accuracy**: 85% (with historical context)
 - 📚 **Context**: Past integrations, lessons learned, blockers
 - 🔍 **Output**: Detailed technical analysis, risk assessment
 
@@ -109,9 +121,6 @@ A **hybrid deterministic + AI system** for evaluating blockchain integrations at
 
 | Metric | Before | After | Improvement |
 |--------|--------|-------|-------------|
-| **Speed** | 8-10s | < 1s (Stage 1) | **10x faster** |
-| **Consistency** | ~60% | 100% (Stage 1) | **Perfect** |
-| **AI Accuracy** | ~70% | ~85% (with context) | **+15%** |
 | **Business Metrics** | No | Yes | **New feature** |
 | **Historical Learning** | No | Yes | **New feature** |
 
@@ -122,7 +131,7 @@ A **hybrid deterministic + AI system** for evaluating blockchain integrations at
 ### The Solution
 
 **Hybrid Deterministic + AI System**:
-- **Stage 1 (Sales)**: Rule-based, 100% consistent, < 1 second
+- **Stage 1 (Sales)**: Rule-based assessment; measure consistency and latency on the intended inputs
 - **Stage 2 (Technical)**: AI-powered with historical context, ~10 seconds
 
 ### Current Status
@@ -231,3 +240,7 @@ GITHUB_TOKEN=your_token  # optional
 ---
 
 **Ready for Monday pitch!** 🚀
+
+## License and data boundaries
+
+This checkout has no root license file establishing general reuse rights. Data, provider responses, media, fonts and other third-party assets may have separate terms. Repository access alone does not grant rights to those materials. 
